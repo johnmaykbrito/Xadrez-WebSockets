@@ -14,59 +14,89 @@ public class Board {
     public final int BLACKPAWNSTARTINGROW = 1, WHITEPAWNSTARTINGROW = 6;
     public int BLACK_TURN = 1, WHITE_TURN = 0;
 
-//    private int[][] BOARD = {
-//        {BROOK, BKNIGHT, BBISHOP, BQUEEN, BKING, BBISHOP, BKNIGHT, BROOK},
-//        {BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN},
-//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-//        {WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN},
-//        {WROOK, WKNIGHT, WBISHOP, WQUEEN, WKING, WBISHOP, WKNIGHT, WROOK}};
     private int[][] BOARD = {
-        {BBISHOP, BKNIGHT, BBISHOP, BQUEEN, BKING, BBISHOP, BKNIGHT, BBISHOP},
-        //        {BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN},
+        {BROOK, BKNIGHT, BBISHOP, BQUEEN, BKING, BBISHOP, BKNIGHT, BROOK},
+        {BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN},
         {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
         {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
         {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
         {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WPAWN, EMPTY, EMPTY},
-        //        {WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN},
-        {WBISHOP, WKNIGHT, WBISHOP, WQUEEN, WKING, WBISHOP, WKNIGHT, WBISHOP}};
+        {WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN},
+        {WROOK, WKNIGHT, WBISHOP, WQUEEN, WKING, WBISHOP, WKNIGHT, WROOK}};
+//    private int[][] BOARD = {
+//        {BBISHOP, BKNIGHT, BBISHOP, BQUEEN, BKING, BBISHOP, BKNIGHT, BBISHOP},
+//        //        {BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {BKNIGHT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {EMPTY, EMPTY, EMPTY, BKNIGHT, WKNIGHT, EMPTY, EMPTY, EMPTY},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WKNIGHT},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WPAWN, EMPTY, EMPTY},
+//        //        {WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN},
+//        {WROOK, WKNIGHT, WBISHOP, WQUEEN, WKING, WBISHOP, WKNIGHT, WROOK}};
 
     public void movePiece(int ox, int oy, int dx, int dy) {
         boolean ok = false;
         // Peças Brancas
         if (TURN == WHITE_TURN) {
             if (BOARD[ox][oy] == WPAWN) {
-                if (isPawnMovePossible(ox, oy, dx, dy, WPAWN)) ok = true;
+                if (isPawnMovePossible(ox, oy, dx, dy, WPAWN)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == WROOK) {
-                if (isXYMovePossible(ox, oy, dx, dy, WROOK)) ok = true;
+                if (isXYMovePossible(ox, oy, dx, dy, WROOK)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == WKING) {
-                if (isKingMovePossible(ox, oy, dx, dy, WKING)) ok = true;
+                if (isKingMovePossible(ox, oy, dx, dy, WKING)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == WQUEEN) {
-                if (isQueenMovePossible(ox, oy, dx, dy, WQUEEN)) ok = true;
+                if (isQueenMovePossible(ox, oy, dx, dy, WQUEEN)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == WBISHOP) {
-                if (isDiagonalMovePossible(ox, oy, dx, dy, WBISHOP)) ok = true;
+                if (isDiagonalMovePossible(ox, oy, dx, dy, WBISHOP)) {
+                    ok = true;
+                }
+            } else if (BOARD[ox][oy] == WKNIGHT) {
+                if (isKnightMovePossible(ox, oy, dx, dy, WKNIGHT)) {
+                    ok = true;
+                }
             }
         }
         // Peças Pretas
         if (TURN == BLACK_TURN) {
             // Peão
             if (BOARD[ox][oy] == BPAWN) {
-                if (isPawnMovePossible(ox, oy, dx, dy, BPAWN)) ok = true;
+                if (isPawnMovePossible(ox, oy, dx, dy, BPAWN)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == BROOK) { // Torre
-                if (isXYMovePossible(ox, oy, dx, dy, BROOK)) ok = true;
+                if (isXYMovePossible(ox, oy, dx, dy, BROOK)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == BKING) {
-                if (isKingMovePossible(ox, oy, dx, dy, BKING)) ok = true;
+                if (isKingMovePossible(ox, oy, dx, dy, BKING)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == BQUEEN) {
-                if (isQueenMovePossible(ox, oy, dx, dy, BQUEEN)) ok = true;
+                if (isQueenMovePossible(ox, oy, dx, dy, BQUEEN)) {
+                    ok = true;
+                }
             } else if (BOARD[ox][oy] == BBISHOP) {
-                if (isDiagonalMovePossible(ox, oy, dx, dy, BBISHOP)) ok = true;
+                if (isDiagonalMovePossible(ox, oy, dx, dy, BBISHOP)) {
+                    ok = true;
+                }
+            } else if (BOARD[ox][oy] == BKNIGHT) {
+                if (isKnightMovePossible(ox, oy, dx, dy, BKNIGHT)) {
+                    ok = true;
+                }
             }
         }
-        if (ok) TURN = (TURN + 1) % 2;
+        if (ok) {
+            TURN = (TURN + 1) % 2;
+        }
     }
 
     // XY Move: Torre, Rainha
@@ -259,6 +289,7 @@ public class Board {
             case 0:
                 // Positive-Right
                 if (dx - ox == dy - oy) {
+                    // Percorre o caminho e verifica se tem obstáculo, se tiver não move
                     for (int row = ox + 1; row <= dx - 1;) {
                         for (int col = oy + 1; col <= dy - 1; col++, row++) {
                             System.out.println("PATH: [" + row + ", " + col + "]");
@@ -269,14 +300,7 @@ public class Board {
 
                         }
                     }
-                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
-                        move(ox, oy, dx, dy);
-                        return true;
-                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
-                        move(ox, oy, dx, dy);
-                        addPoint(piece);
-                        return true;
-                    }
+                    return checkDestiny(ox, oy, dx, dy, piece);
                 }
                 break;
             case 1:
@@ -291,14 +315,7 @@ public class Board {
                             }
                         }
                     }
-                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
-                        move(ox, oy, dx, dy);
-                        return true;
-                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
-                        move(ox, oy, dx, dy);
-                        addPoint(piece);
-                        return true;
-                    }
+                    return checkDestiny(ox, oy, dx, dy, piece);
                 }
                 break;
             case 2:
@@ -313,14 +330,7 @@ public class Board {
                             }
                         }
                     }
-                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
-                        move(ox, oy, dx, dy);
-                        return true;
-                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
-                        move(ox, oy, dx, dy);
-                        addPoint(piece);
-                        return true;
-                    }
+                    return checkDestiny(ox, oy, dx, dy, piece);
                 }
                 break;
             case 3:
@@ -335,20 +345,64 @@ public class Board {
                             }
                         }
                     }
-                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
-                        move(ox, oy, dx, dy);
-                        return true;
-                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
-                        move(ox, oy, dx, dy);
-                        addPoint(piece);
-                        return true;
-                    }
+                    return checkDestiny(ox, oy, dx, dy, piece);
                 }
                 break;
             default:
                 break;
         }
+        return false;
+    }
 
+    private boolean isKnightMovePossible(int ox, int oy, int dx, int dy, int piece) {
+        int direction = -1;
+        if (dx > ox) {
+            if (dy > oy) { // Direita
+                System.out.println("Positivo - Direita");
+                direction = 0;
+                return isKnightPathValid(ox, oy, dx, dy, piece, direction);
+            } else if (dy < oy) { // Esquerda
+                System.out.println("Positivo - Esquerda");
+                direction = 1;
+                return isKnightPathValid(ox, oy, dx, dy, piece, direction);
+            }
+        } else if (dx < ox) {
+            if (dy > oy) { // Direita
+                System.out.println("Negativo - Direita");
+                direction = 2;
+                return isKnightPathValid(ox, oy, dx, dy, piece, direction);
+            } else if (dy < oy) { // Esquerda
+                System.out.println("Negativo - Esquerda");
+                direction = 3;
+                return isKnightPathValid(ox, oy, dx, dy, piece, direction);
+            }
+        }
+        return false;
+    }
+
+    private boolean isKnightPathValid(int ox, int oy, int dx, int dy, int piece, int direction) {
+        if ((dx - ox == 1 && dy - oy == 2) || (dx - ox == 2 && dy - oy == 1) || (dx - ox == 1 && oy - dy == 2) || (dx - ox == 2 && oy - dy == 1) || (ox - dx == 1 && oy - dy == 2) || (ox - dx == 2 && oy - dy == 1) || (ox - dx == 1 && dy - oy == 2) || (ox - dx == 2 && dy - oy == 1)) {
+            if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
+                move(ox, oy, dx, dy);
+                return true;
+            } else if (isEnemy(piece, dx, dy)) { // É inimigo?
+                move(ox, oy, dx, dy);
+                addPoint(piece);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkDestiny(int ox, int oy, int dx, int dy, int piece) {
+        if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
+            move(ox, oy, dx, dy);
+            return true;
+        } else if (isEnemy(piece, dx, dy)) { // É inimigo?
+            move(ox, oy, dx, dy);
+            addPoint(piece);
+            return true;
+        }
         return false;
     }
 }
