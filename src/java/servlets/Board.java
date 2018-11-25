@@ -8,61 +8,65 @@ import java.util.Arrays;
 public class Board {
 
     private int TURN = 0;
-    private int[][] BOARD = {
-        {4, 3, 2, 0, 1, 2, 3, 4},
-        {5, 5, 5, 5, 5, 5, 5, 5},
-        {12, 12, 12, 12, 12, 12, 12, 12},
-        {12, 12, 12, 12, 12, 12, 12, 12},
-        {12, 12, 12, 12, 12, 12, 12, 12},
-        {12, 12, 12, 12, 12, 12, 12, 12},
-        {11, 11, 11, 11, 11, 11, 11, 11},
-        {10, 9, 8, 6, 7, 8, 9, 10}};
-
-    public static int BQUEEN = 0, BKING = 1, BKNIGTH = 2, BBISHOP = 3, BROOK = 4, BPAWN = 5;
-    public static int WQUEEN = 6, WKING = 7, WKNIGTH = 8, WBISHOP = 9, WROOK = 10, WPAWN = 11, EMPTY = 12;
+    public static int BQUEEN = 0, BKING = 1, BBISHOP = 2, BKNIGHT = 3, BROOK = 4, BPAWN = 5;
+    public static int WQUEEN = 6, WKING = 7, WBISHOP = 8, WKNIGHT = 9, WROOK = 10, WPAWN = 11, EMPTY = 12;
     public static int BPOINTS = 0, WPOINTS = 0;
     public final int BLACKPAWNSTARTINGROW = 1, WHITEPAWNSTARTINGROW = 6;
-    public int BLACK = 1, WHITE = 0;
+    public int BLACK_TURN = 1, WHITE_TURN = 0;
+
+//    private int[][] BOARD = {
+//        {BROOK, BKNIGHT, BBISHOP, BQUEEN, BKING, BBISHOP, BKNIGHT, BROOK},
+//        {BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+//        {WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN},
+//        {WROOK, WKNIGHT, WBISHOP, WQUEEN, WKING, WBISHOP, WKNIGHT, WROOK}};
+    private int[][] BOARD = {
+        {BBISHOP, BKNIGHT, BBISHOP, BQUEEN, BKING, BBISHOP, BKNIGHT, BBISHOP},
+        //        {BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN, BPAWN},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WPAWN, EMPTY, EMPTY},
+        //        {WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN, WPAWN},
+        {WBISHOP, WKNIGHT, WBISHOP, WQUEEN, WKING, WBISHOP, WKNIGHT, WBISHOP}};
 
     public void movePiece(int ox, int oy, int dx, int dy) {
         boolean ok = false;
         // Peças Brancas
-        if (TURN == WHITE) {
+        if (TURN == WHITE_TURN) {
             if (BOARD[ox][oy] == WPAWN) {
-                if (isPawnMovePossible(ox, oy, dx, dy, WPAWN)) {
-                    ok = true;
-                }
+                if (isPawnMovePossible(ox, oy, dx, dy, WPAWN)) ok = true;
             } else if (BOARD[ox][oy] == WROOK) {
-                if (isXYMovePossible(ox, oy, dx, dy, WROOK)) {
-                    ok = true;
-                }
+                if (isXYMovePossible(ox, oy, dx, dy, WROOK)) ok = true;
             } else if (BOARD[ox][oy] == WKING) {
-                if (isKingStepPossible(ox, oy, dx, dy, WKING)) {
-                    ok = true;
-                }
+                if (isKingMovePossible(ox, oy, dx, dy, WKING)) ok = true;
+            } else if (BOARD[ox][oy] == WQUEEN) {
+                if (isQueenMovePossible(ox, oy, dx, dy, WQUEEN)) ok = true;
+            } else if (BOARD[ox][oy] == WBISHOP) {
+                if (isDiagonalMovePossible(ox, oy, dx, dy, WBISHOP)) ok = true;
             }
         }
         // Peças Pretas
-        if (TURN == BLACK) {
+        if (TURN == BLACK_TURN) {
             // Peão
             if (BOARD[ox][oy] == BPAWN) {
-                if (isPawnMovePossible(ox, oy, dx, dy, BPAWN)) {
-                    ok = true;
-                }
+                if (isPawnMovePossible(ox, oy, dx, dy, BPAWN)) ok = true;
             } else if (BOARD[ox][oy] == BROOK) { // Torre
-                if (isXYMovePossible(ox, oy, dx, dy, BOARD[ox][oy])) {
-                    ok = true;
-                }
+                if (isXYMovePossible(ox, oy, dx, dy, BROOK)) ok = true;
             } else if (BOARD[ox][oy] == BKING) {
-                if (isKingStepPossible(ox, oy, dx, dy, BOARD[ox][oy])) {
-                    ok = true;
-                }
+                if (isKingMovePossible(ox, oy, dx, dy, BKING)) ok = true;
+            } else if (BOARD[ox][oy] == BQUEEN) {
+                if (isQueenMovePossible(ox, oy, dx, dy, BQUEEN)) ok = true;
+            } else if (BOARD[ox][oy] == BBISHOP) {
+                if (isDiagonalMovePossible(ox, oy, dx, dy, BBISHOP)) ok = true;
             }
         }
-
-        if (ok) {
-            TURN = (TURN + 1) % 2;
-        }
+        if (ok) TURN = (TURN + 1) % 2;
     }
 
     // XY Move: Torre, Rainha
@@ -77,7 +81,6 @@ public class Board {
                     }
                 }
             } else if (dy < oy) {  // Negativo
-                System.out.println("É Movimento Horizontal Negativo");
                 for (int i = oy - 1; i > dy; i--) {
                     // Só imprime quando dá erro
                     if (BOARD[ox][i] != EMPTY) {
@@ -86,9 +89,7 @@ public class Board {
                     }
                 }
             }
-
             if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
-                System.out.println("Destino Vazio");
                 move(ox, oy, dx, dy);
                 return true;
             } else if (isEnemy(piece, dx, dy)) { // É inimigo?
@@ -98,7 +99,6 @@ public class Board {
             }
         } else if (oy == dy) { // Vertical
             if (dx > ox) { // Positivo
-                System.out.println("É Movimento Vertical Positivo");
                 for (int i = ox + 1; i < dx; i++) {
                     // Só imprime quando dá erro
                     if (BOARD[i][oy] != EMPTY) {
@@ -107,7 +107,6 @@ public class Board {
                     }
                 }
             } else if (dx < ox) { // Negativo
-                System.out.println("É Movimento Vertical Negativo");
                 for (int i = ox - 1; i > dx; i--) {
                     // Só imprime quando dá erro
                     if (BOARD[i][oy] != EMPTY) {
@@ -132,20 +131,40 @@ public class Board {
 
     // Diagonal Move: Bispo, Rainha
     private boolean isDiagonalMovePossible(int ox, int oy, int dx, int dy, int piece) {
+        int direction = -1;
+        System.out.println("Diagonal");
+        if (dx > ox) { // Positivo
+            if (dy > oy) { // Direita
+                System.out.println("Positivo - Direita");
+                direction = 0;
+                return isDiagonalPathValid(ox, oy, dx, dy, piece, direction);
+            } else if (dy < oy) { // Esquerda
+                System.out.println("Positivo - Esquerda");
+                direction = 1;
+                return isDiagonalPathValid(ox, oy, dx, dy, piece, direction);
+            }
+        } else if (dx < ox) { // Negativo
+            System.out.println("Negativo");
+            if (dy > oy) { // Direita
+                System.out.println("Negativo - Direita");
+                direction = 2;
+                return isDiagonalPathValid(ox, oy, dx, dy, piece, direction);
+            } else if (dy < oy) { // Esquerda
+                System.out.println("Negativo - Esquerda");
+                direction = 3;
+                return isDiagonalPathValid(ox, oy, dx, dy, piece, direction);
+            }
+        }
         return false;
     }
 
     // Movimentos de uma casa
-    private boolean isKingStepPossible(int ox, int oy, int dx, int dy, int piece) {
-        System.out.println("iskingStepPossible");
+    private boolean isKingMovePossible(int ox, int oy, int dx, int dy, int piece) {
         if ((piece == WKING || piece == BKING) && (ox == dx - 1 && oy == dy || ox == dx + 1 && oy == dy || ox == dx && oy == dy - 1 || ox == dx && oy == dy + 1 || ox == dx - 1 && oy == dy - 1 || ox == dx - 1 && oy == dy + 1 || ox == dx + 1 && oy == dy - 1 || ox == dx + 1 && oy == dy + 1)) {
-            System.out.println("Inside IF");
             if (BOARD[dx][dy] == EMPTY) {
-                System.out.println("Inside IF IF");
                 move(ox, oy, dx, dy);
                 return true;
             } else if (isEnemy(piece, dx, dy)) {
-                System.out.println("Inside IF ELSEIF");
                 move(ox, oy, dx, dy);
                 addPoint(piece);
                 return true;
@@ -154,8 +173,9 @@ public class Board {
         return false;
     }
 
-    private boolean isEnemy(int piece, int dx, int dy) {
-        return (BOARD[dx][dy] <= 5 && piece > 5 && piece < EMPTY) ? true : ((BOARD[dx][dy] > 5 && BOARD[dx][dy] < EMPTY) && (piece > 5 && piece < EMPTY) ? false : ((BOARD[dx][dy] > 5 && BOARD[dx][dy] < EMPTY) && piece <= 5) ? true : (BOARD[dx][dy] <= 5 && piece <= 5) ? false : false);
+    private boolean isQueenMovePossible(int ox, int oy, int dx, int dy, int piece) {
+        return isXYMovePossible(ox, oy, dx, dy, piece) || isDiagonalMovePossible(ox, oy, dx, dy, piece);
+
     }
 
     private boolean isPawnMovePossible(int ox, int oy, int dx, int dy, int piece) {
@@ -186,19 +206,6 @@ public class Board {
         return BOARD[dx][dy] == EMPTY;
     }
 
-    @Override
-    public String toString() {
-        return Arrays.deepToString(BOARD);
-    }
-
-    public static void main(String[] args) {
-        Board tab = new Board();
-        tab.movePiece(1, 0, 3, 0);//xy|xy
-        tab.movePiece(6, 3, 5, 3);
-        System.out.println(tab.BOARD[1][0]);
-        tab.printTabuleiro();
-    }
-
     public void printTabuleiro() {
         for (int[] linha : BOARD) {
             System.out.println(Arrays.toString(linha));
@@ -227,5 +234,121 @@ public class Board {
 
     private boolean isPieceBlack(int piece) {
         return piece <= 5;
+    }
+
+    private boolean isEnemy(int piece, int dx, int dy) {
+        return (BOARD[dx][dy] <= 5 && piece > 5 && piece < EMPTY) ? true : ((BOARD[dx][dy] > 5 && BOARD[dx][dy] < EMPTY) && (piece > 5 && piece < EMPTY) ? false : ((BOARD[dx][dy] > 5 && BOARD[dx][dy] < EMPTY) && piece <= 5) ? true : (BOARD[dx][dy] <= 5 && piece <= 5) ? false : false);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(BOARD);
+    }
+
+    public static void main(String[] args) {
+        Board tab = new Board();
+        tab.movePiece(1, 0, 3, 0);//xy|xy
+        tab.movePiece(6, 3, 5, 3);
+        System.out.println(tab.BOARD[1][0]);
+        tab.printTabuleiro();
+    }
+
+    private boolean isDiagonalPathValid(int ox, int oy, int dx, int dy, int piece, int direction) {
+        System.out.println("Direction: " + direction);
+        switch (direction) {
+            case 0:
+                // Positive-Right
+                if (dx - ox == dy - oy) {
+                    for (int row = ox + 1; row <= dx - 1;) {
+                        for (int col = oy + 1; col <= dy - 1; col++, row++) {
+                            System.out.println("PATH: [" + row + ", " + col + "]");
+                            if (BOARD[row][col] != EMPTY) {
+                                System.out.println(BOARD[row][col]);
+                                return false;
+                            }
+
+                        }
+                    }
+                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
+                        move(ox, oy, dx, dy);
+                        return true;
+                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
+                        move(ox, oy, dx, dy);
+                        addPoint(piece);
+                        return true;
+                    }
+                }
+                break;
+            case 1:
+                // Positive-Left
+                if (dx - ox == oy - dy) {
+                    for (int row = ox + 1; row <= dx - 1;) {
+                        for (int col = oy - 1; col >= dy + 1; col--, row++) {
+                            System.out.println("PATH: [" + row + ", " + col + "]");
+                            if (BOARD[row][col] != EMPTY) {
+                                System.out.println(BOARD[row][col]);
+                                return false;
+                            }
+                        }
+                    }
+                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
+                        move(ox, oy, dx, dy);
+                        return true;
+                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
+                        move(ox, oy, dx, dy);
+                        addPoint(piece);
+                        return true;
+                    }
+                }
+                break;
+            case 2:
+                // Negative-Right
+                if (ox - dx == dy - oy) {
+                    for (int row = ox - 1; row >= dx + 1;) {
+                        for (int col = oy + 1; col <= dy - 1; col++, row--) {
+                            System.out.println("PATH: [" + row + ", " + col + "]");
+                            if (BOARD[row][col] != EMPTY) {
+                                System.out.println(BOARD[row][col]);
+                                return false;
+                            }
+                        }
+                    }
+                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
+                        move(ox, oy, dx, dy);
+                        return true;
+                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
+                        move(ox, oy, dx, dy);
+                        addPoint(piece);
+                        return true;
+                    }
+                }
+                break;
+            case 3:
+                // Negative-Left
+                if (ox - dx == oy - dy) {
+                    for (int row = ox - 1; row >= dx + 1;) {
+                        for (int col = oy - 1; col >= dy + 1; col--, row--) {
+                            System.out.println("PATH: [" + row + ", " + col + "]");
+                            if (BOARD[row][col] != EMPTY) {
+                                System.out.println(BOARD[row][col]);
+                                return false;
+                            }
+                        }
+                    }
+                    if (BOARD[dx][dy] == EMPTY) { // Destino Vazio
+                        move(ox, oy, dx, dy);
+                        return true;
+                    } else if (isEnemy(piece, dx, dy)) { // É inimigo?
+                        move(ox, oy, dx, dy);
+                        addPoint(piece);
+                        return true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+        return false;
     }
 }
